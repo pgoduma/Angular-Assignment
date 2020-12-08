@@ -1,0 +1,22 @@
+<section class="home">
+    <ng-container>
+        <header>
+            <mat-toolbar class="home-header"><mat-icon [style]="{'cursor':'pointer'}" (click)="sidenav.toggle()" class="mr-2" aria-hidden="false" aria-label="side menu icon">menu</mat-icon> Enlight</mat-toolbar>
+        </header>
+        <mat-sidenav-container class="home-container">
+          <mat-sidenav #sidenav [opened]="media.isActive('md') || media.isActive('lg')" hasBackdrop="false" mode="side" class="home-sidenav">
+            <mat-nav-list role="list">
+                <a mat-list-item role="list-item" [routerLink]="'/search'"><mat-icon class="mr-2" aria-hidden="false" aria-label="search icon">search</mat-icon> Search</a>
+                <a mat-list-item role="list-item" [routerLink]="'/cart'"><mat-icon class="mr-2" aria-hidden="false" aria-label="shopping cart icon">shopping_cart</mat-icon> Cart</a>
+                <a mat-list-item role="list-item" [routerLink]="'/mycollection'"><mat-icon class="mr-2" aria-hidden="false" aria-label="my collection icon">collections_bookmark</mat-icon> My Collection</a>
+              </mat-nav-list>
+          </mat-sidenav>
+      
+          <mat-sidenav-content class="home-sidenav-content">
+              <div class="home-centerwrap p-4">
+                <router-outlet></router-outlet>
+              </div>
+          </mat-sidenav-content>
+        </mat-sidenav-container>
+    </ng-container>
+</section>

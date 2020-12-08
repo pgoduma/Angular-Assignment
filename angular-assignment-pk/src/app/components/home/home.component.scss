@@ -1,0 +1,12 @@
+.home{
+    mat-toolbar{
+        background: #c91c5c;
+        color: #fff;
+    }
+    &-container{
+        min-height: 88vh;
+    }
+    &-sidenav{
+        min-width: 150px;
+    }
+}
