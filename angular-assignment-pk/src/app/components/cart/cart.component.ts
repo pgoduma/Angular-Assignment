@@ -29,8 +29,9 @@ export class CartComponent implements OnInit {
   }
 
   proceedToBuy(){ //proceed to billing page
+    this.shared.billingBookData = [];
     this.shared.billingBookData = [...this.shared.cartItems];
-    this.router.navigate(['billing-details']);
+    this.router.navigate(['billing-details', 'cart']);
   }
 
   trackByBook(index, book){

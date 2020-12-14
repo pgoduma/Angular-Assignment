@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from 'src/app/service/shared.service';
 
 
@@ -13,8 +13,9 @@ import { SharedService } from 'src/app/service/shared.service';
 export class BillingDetailsComponent implements OnInit {
   billingDetails:FormGroup = null;
   loading:boolean = false;
-  constructor(private fb: FormBuilder, private shared: SharedService, private router: Router, public dialog: MatDialog) {
-
+  fromPage: string;
+  constructor(private fb: FormBuilder, private shared: SharedService, private router: Router, public dialog: MatDialog, private route: ActivatedRoute) {
+    this.route.params.subscribe(params=>this.fromPage = params.page)
   }
 
   ngOnInit(): void {
@@ -35,7 +36,9 @@ export class BillingDetailsComponent implements OnInit {
        item.billingAddress = billingData.billingAddress;
      });
      this.shared.myCollectionItems = this.shared.myCollectionItems.concat(this.shared.billingBookData);
-     this.shared.cartItems = [];
+     if(this.fromPage === 'cart'){
+       this.shared.cartItems = [];
+     }
      console.log(this.shared.myCollectionItems);
      this.openDialog();
     }

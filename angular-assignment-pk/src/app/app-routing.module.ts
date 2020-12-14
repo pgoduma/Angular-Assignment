@@ -28,7 +28,7 @@ const routes: Routes = [
     component: BookDetailsComponent
   },
   {
-    path: 'billing-details',
+    path: 'billing-details/:page',
     component: BillingDetailsComponent
   },
 ];

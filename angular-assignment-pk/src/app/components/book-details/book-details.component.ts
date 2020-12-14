@@ -46,8 +46,9 @@ export class BookDetailsComponent implements OnInit {
       }
     }
     if(this.actionInfo && this.actionInfo === 'buyNow'){ //buy now
+      this.shared.billingBookData = [];
       this.shared.billingBookData.push(book);
-      this.router.navigate(['billing-details']);
+      this.router.navigate(['billing-details', 'buy-now']);
     }
   }
 }
