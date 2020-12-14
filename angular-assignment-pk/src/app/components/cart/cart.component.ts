@@ -9,6 +9,7 @@ import { SharedService } from 'src/app/service/shared.service';
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
+  actionInfo: string;
 
   constructor(private router: Router, public shared: SharedService) {
     const cart = JSON.parse(sessionStorage.getItem('cartData'));
@@ -17,13 +18,19 @@ export class CartComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  proceedToBuy(){
-    this.shared.billingBookData = [...this.shared.cartItems];
-    this.router.navigate(['billing-details']);
+  getActionInfo(actionInfo: string){
+    this.actionInfo = actionInfo;
   }
 
-  removeBook(book:BookModel){
-    this.shared.cartItems = this.shared.cartItems.filter((item:BookModel)=>item.id !== book.id);
+  removeBook(book:BookModel){  //remove from cart
+    if(this.actionInfo && this.actionInfo === 'remFromCart'){
+      this.shared.cartItems = this.shared.cartItems.filter((item:BookModel)=>item.id !== book.id);
+    }
+  }
+
+  proceedToBuy(){ //proceed to billing page
+    this.shared.billingBookData = [...this.shared.cartItems];
+    this.router.navigate(['billing-details']);
   }
 
   trackByBook(index, book){

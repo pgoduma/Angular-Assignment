@@ -1,4 +1,4 @@
-<div class="book">
+<div class="book" *ngIf="book">
     <mat-card class="book-card" [ngClass]="{'book-hover':hasRoute('search')}">
         <div fxLayout="row" fxLayoutAlign="space-between">
             <div>
@@ -53,7 +53,7 @@
                     <span aria-label="book author" *ngFor="let author of book.authors;let i = index;trackBy:trackByAuthor"><span *ngIf="i != 0 && i != book.authors.length-1">, </span><span *ngIf="i == book.authors.length-1 && book.authors.length > 1"> and </span>{{author}}</span>
                 </div>
                 <div class="book-remove-book mt-sm-0 mt-3" *ngIf="hasRoute('cart')">
-                    <button class="btn px-0" (click)="removeFromCart(book)"><mat-icon aria-hidden="false" aria-label="delete cart">remove_shopping_cart</mat-icon></button>
+                    <button class="btn px-0" (click)="selectBook(book, 'remFromCart')"><mat-icon aria-hidden="false" aria-label="delete cart">remove_shopping_cart</mat-icon></button>
                 </div>
             </div>
             <div class="book-billing-info my-3" *ngIf="hasRoute('mycollection')">
@@ -76,8 +76,8 @@
                 </p>
             </div>  
             <div class="book-actions my-3" *ngIf="hasRoute('book-details')">
-                <button class="btn btn-card-actions mr-3" (click)="addToCart(book)">ADD TO CART</button>
-                <button class="btn btn-card-actions" (click)="navigateToBilling(book)">BUY</button>
+                <button class="btn btn-card-actions mr-3" (click)="selectBook(book, 'addToCart')">ADD TO CART</button>
+                <button class="btn btn-card-actions" (click)="selectBook(book, 'buyNow')">BUY</button>
             </div>
           </mat-card-actions>
     </mat-card>

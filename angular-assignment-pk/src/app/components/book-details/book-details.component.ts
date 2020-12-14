@@ -13,12 +13,13 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export class BookDetailsComponent implements OnInit {
   bookId: string;
   book:BookModel;
+  actionInfo: string;
   loading: boolean = false;
   constructor(private router: Router, private route: ActivatedRoute, private shared: SharedService, private bookService: BookServiceService, private snackBar: MatSnackBar) { 
     this.route.params.subscribe(params => {
       this.bookId = params.id;
     });
-  }s
+  }
 
   ngOnInit(): void {
     this.getBookDetails();
@@ -32,19 +33,21 @@ export class BookDetailsComponent implements OnInit {
     });
   }
 
-  getAddedBook(book:BookModel){
-    if(!this.shared.cartItems.some(item=>item.id === book.id)){
-      this.shared.cartItems.push(book);
-      this.snackBar.open('Book successfully added to cart','', {
-        duration: 2000,
-      });
-      // sessionStorage.setItem('cartData', JSON.stringify(this.shared.cartItems));
-    }
+  getActionInfo(actionInfo: string){
+    this.actionInfo = actionInfo;
   }
-
-  gotoBillingPage(book:BookModel){
-    this.shared.billingBookData.push(book);
-    // sessionStorage.setItem('billingData', JSON.stringify(this.shared.billingBookData));
-    this.router.navigate(['billing-details']);
+  setAction(book:BookModel){
+    if(this.actionInfo && this.actionInfo === 'addToCart'){ //add to cart
+      if(!this.shared.cartItems.some(item=>item.id === book.id)){
+        this.shared.cartItems.push(book);
+        this.snackBar.open('Book successfully added to cart','', {
+          duration: 2000,
+        });
+      }
+    }
+    if(this.actionInfo && this.actionInfo === 'buyNow'){ //buy now
+      this.shared.billingBookData.push(book);
+      this.router.navigate(['billing-details']);
+    }
   }
 }

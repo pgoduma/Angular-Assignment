@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { BookModel } from 'src/app/models/book-model';
-import { SharedService } from 'src/app/service/shared.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-book',
@@ -12,25 +10,18 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export class BookComponent implements OnInit {
 
   @Input() book:BookModel;
-  @Output() addToCartEvt = new EventEmitter<BookModel>();
-  @Output() removeBook = new EventEmitter<BookModel>();
-  @Output() addToBilling = new EventEmitter<BookModel>();
+  @Output() selectedBook = new EventEmitter<BookModel>();
+  @Output() bookAction = new EventEmitter<string>();
 
-  constructor(private router: Router, private shared: SharedService, private snackBar: MatSnackBar) { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  navigateToBilling(book:BookModel){ 
-    this.addToBilling.emit(book);
-  }
-  
-  addToCart(book:BookModel){ 
-    this.addToCartEvt.emit(book);
-  }
 
-  removeFromCart(book:BookModel){
-    this.removeBook.emit(book);
+  selectBook(book:BookModel, action:string){
+    this.bookAction.emit(action);
+    this.selectedBook.emit(book);
   }
 
   hasRoute(route: string){

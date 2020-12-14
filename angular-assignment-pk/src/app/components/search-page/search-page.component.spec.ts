@@ -1,9 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BookServiceService } from 'src/app/service/book-service.service';
-
 import { SearchPageComponent } from './search-page.component';
 
 describe('SearchPageComponent', () => {
@@ -12,7 +11,7 @@ describe('SearchPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, RouterTestingModule, MatSnackBarModule],
       declarations: [ SearchPageComponent ],
       providers: [BookServiceService]
     })
@@ -25,15 +24,4 @@ describe('SearchPageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should call getBooksList and return []',fakeAsync(() => {
-   let fixture = TestBed.createComponent(SearchPageComponent);
-   let component = fixture.debugElement.componentInstance;
-   let bookService = fixture.debugElement.injector.get(BookServiceService);
-   let fApiCall = spyOn(bookService,"getBooks").and.callFake(()=>{
-      return of([]).pipe(delay(300));
-   })
-   component.getBooksList();
-   tick(300);
-   expect(component.booksArr).toEqual([]);
-  }));
 });

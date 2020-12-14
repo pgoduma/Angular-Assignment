@@ -9,8 +9,10 @@ import { BookModel } from '../models/book-model';
   providedIn: 'root'
 })
 export class BookServiceService {
-
-  constructor(private http: HttpClient) { }
+  items: BookModel[];
+  constructor(private http: HttpClient) { 
+    this.items = [];
+  }
 
   getBooks(query: string):Observable<BookModel[]>{ //get list of books
     let url = `${ApiKey.BOOKS_URL}?q=${query}`;

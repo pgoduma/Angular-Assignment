@@ -1,6 +1,6 @@
 
 <section class="book-details" *ngIf="book">
-    <app-book [book]="book" (addToCartEvt)="getAddedBook($event)" (addToBilling)="gotoBillingPage($event)"></app-book>
+    <app-book [book]="book" (bookAction)="getActionInfo($event)" (selectedBook)="setAction($event)"></app-book>
 </section>
 <div class="spinner-overlay" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
     <mat-spinner diameter="40"></mat-spinner>
