@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedService } from 'src/app/service/shared.service';
 
 @Component({
   selector: 'app-my-collection',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyCollectionComponent implements OnInit {
 
-  constructor() { }
+  constructor(public shared: SharedService) { }
 
   ngOnInit(): void {
   }
 
+  trackByBook(index, book){
+    return book.id
+  }
 }

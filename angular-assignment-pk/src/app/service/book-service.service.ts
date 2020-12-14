@@ -12,7 +12,7 @@ export class BookServiceService {
 
   constructor(private http: HttpClient) { }
 
-  getBooks(query: string):Observable<BookModel[]>{
+  getBooks(query: string):Observable<BookModel[]>{ //get list of books
     let url = `${ApiKey.BOOKS_URL}?q=${query}`;
     return this.http.get<{items: BookModel[]}>(url)
     .pipe(map((books) => {
@@ -23,5 +23,9 @@ export class BookServiceService {
         console.log('Throwing error');
         throw new Error(error);
       }));
+  }
+
+  getBookById(bookId: string): Observable<BookModel> { //get book by id
+    return this.http.get<BookModel>(`${ApiKey.BOOKS_URL}/${bookId}`);
   }
 }

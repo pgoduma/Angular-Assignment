@@ -1,4 +1,4 @@
-<section class="section-books">
+<section class="search-books">
     <div fxLayout="row" fxLayoutAlign="end center">
         <mat-form-field>
             <input aria-label="Search book" type="text" [formControl]="searchFieldInput" matInput placeholder="Search in Library" #inputQuery>
@@ -7,26 +7,9 @@
     </div>
     
     <div fxLayout="row wrap"  fxLayout.lt-md="column" fxLayoutGap="0px" fxLayoutAlign="space-between">
-            <mat-card class="mb-4 section-books-cards" *ngFor="let book of booksArr; let i = index; trackBy: trackByBook" fxFlex="0 1 calc(48%)" fxFlex.lt-md="100%">
-                <div fxLayout="row" fxLayoutAlign="space-between">
-                    <div>
-                        <mat-card-title aria-label="book title">{{book.title}}</mat-card-title>
-                        <mat-card-subtitle aria-label="book subtitle" class="section-books-subtitle">{{book.subtitle}}</mat-card-subtitle>
-                    </div>
-                    <div class="section-books-img">
-                        <img src="{{book.imageLinks.smallThumbnail}}" alt="book-result-{{i}}">
-                    </div>
-                </div>
-                  <mat-card-content class="mb-2">
-                    <p aria-label="book description" class="section-books-description mt-2">
-                        {{book.description}}
-                    </p>
-                  </mat-card-content>
-                  <mat-card-actions class="px-2" *ngIf="book.authors">
-                    <p aria-label="written by" class="mb-1"><strong> Written By:</strong></p>
-                    <span aria-label="book author" *ngFor="let author of book.authors;let i = index;trackBy:trackByAuthor"><span *ngIf="i != 0 && i != book.authors.length-1">, </span><span *ngIf="i == book.authors.length-1 && book.authors.length > 1"> and </span>{{author}}</span>
-                  </mat-card-actions>
-            </mat-card>
+            <div (click)="gotoBookDetail(book.id)" class="mb-4 search-books-cards" *ngFor="let book of booksArr; let i = index; trackBy: trackByBook" fxFlex="0 1 calc(48%)" fxFlex.lt-md="100%">
+                <app-book [book]="book"></app-book>
+            </div>
     </div>
     <div class="spinner-overlay" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
         <mat-spinner diameter="40"></mat-spinner>

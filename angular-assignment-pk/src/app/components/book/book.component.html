@@ -1,0 +1,84 @@
+<div class="book">
+    <mat-card class="book-card" [ngClass]="{'book-hover':hasRoute('search')}">
+        <div fxLayout="row" fxLayoutAlign="space-between">
+            <div>
+                <mat-card-title aria-label="book title">{{book.title}}</mat-card-title>
+                <mat-card-subtitle aria-label="book subtitle" class="book-subtitle">{{book.subtitle}}</mat-card-subtitle>
+            </div>
+            <div class="book-img">
+                <img src="{{book.imageLinks.smallThumbnail}}" alt="book-{{book.title}}">
+            </div>
+        </div>
+          <mat-card-content class="mb-2">
+            <div class="book-pinfo mb-4" *ngIf="hasRoute('book-details')">
+                <p aria-label="book rating" *ngIf="book.averageRating">
+                    <span>Rating:</span> 
+                    <span class="mr-1" *ngFor="let star of ' '.repeat(book.averageRating).split(''), let i = index">
+                        <mat-icon aria-hidden="false" aria-label="rating icon">star</mat-icon>
+                    </span>
+                </p>
+                <p aria-label="book publisher" class="mb-0">
+                    <span>
+                        Publisher:
+                    </span>
+                    <span>
+                        {{book.publisher}}
+                    </span>
+                </p>
+                <p aria-label="book page count" class="mb-0">
+                    <span>
+                        Page Count:
+                    </span>
+                    <span>
+                        {{book.pageCount}}
+                    </span>
+                </p>
+                <p aria-label="book language" class="mb-0">
+                    <span>
+                        Language:
+                    </span>
+                    <span>
+                        {{book.language}}
+                    </span>
+                </p>
+            </div>  
+            <p aria-label="book description" [innerHTML]="book.description" [ngClass]="{'book-details':hasRoute('book-details')}" class="book-description mt-2">
+                <!-- {{book.description}} -->
+            </p>
+          </mat-card-content>
+          <mat-card-actions class="px-2">
+            <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between center" fxLayoutAlign.lt-sm="flex-start flex-start">
+                <div *ngIf="book.authors">
+                    <p aria-label="written by" class="mb-1"><strong> Written By:</strong></p>
+                    <span aria-label="book author" *ngFor="let author of book.authors;let i = index;trackBy:trackByAuthor"><span *ngIf="i != 0 && i != book.authors.length-1">, </span><span *ngIf="i == book.authors.length-1 && book.authors.length > 1"> and </span>{{author}}</span>
+                </div>
+                <div class="book-remove-book mt-sm-0 mt-3" *ngIf="hasRoute('cart')">
+                    <button class="btn px-0" (click)="removeFromCart(book)"><mat-icon aria-hidden="false" aria-label="delete cart">remove_shopping_cart</mat-icon></button>
+                </div>
+            </div>
+            <div class="book-billing-info my-3" *ngIf="hasRoute('mycollection')">
+                <h4><strong>Billing Address</strong></h4>
+                <p class="mb-0">
+                    <span><strong>Name:</strong></span>
+                    <span>{{book.billingName}}</span>
+                </p>
+                <p class="mb-0">
+                    <span><strong>Email:</strong></span>
+                    <span>{{book.billingEmail}}</span>
+                </p>
+                <p class="mb-0">
+                    <span><strong>Phone:</strong></span>
+                    <span>{{book.billingPhone}}</span>
+                </p>
+                <p class="mb-0">
+                    <span><strong>Address:</strong></span>
+                    <span [innerHTML]="book.billingAddress"></span>
+                </p>
+            </div>  
+            <div class="book-actions my-3" *ngIf="hasRoute('book-details')">
+                <button class="btn btn-card-actions mr-3" (click)="addToCart(book)">ADD TO CART</button>
+                <button class="btn btn-card-actions" (click)="navigateToBilling(book)">BUY</button>
+            </div>
+          </mat-card-actions>
+    </mat-card>
+</div>
