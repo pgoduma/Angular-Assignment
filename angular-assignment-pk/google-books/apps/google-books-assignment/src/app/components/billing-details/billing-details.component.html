@@ -1,0 +1,55 @@
+<section class="billing-details">
+    <div class="billing-details-wrap" fxLayout="row" fxLayout.lt-md="column">
+        <div class="py-4 px-2 billing-details-left" fxLayout="row" fxLayoutAlign="center center">
+            <mat-icon aria-hidden="false" aria-label="shopping basket icon">shopping_basket</mat-icon>
+        </div>
+        <div class="py-4 px-2 billing-details-right">
+            <h4 class="text-center" aria-label="Billing Info"><strong>Billing Info</strong></h4>
+            <form [formGroup]="billingDetails">
+              <div fxLayout="column">
+                <mat-form-field class="">
+                    <mat-label>Your Name</mat-label>
+                    <input type="text" matInput formControlName="billingName">
+                    <mat-error *ngIf="billingDetails.get('billingName').hasError('required')">
+                        Name is required
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="">
+                    <mat-label>Your Email</mat-label>
+                    <input type="email" matInput formControlName="billingEmail">
+                    <mat-error *ngIf="billingDetails.get('billingEmail').hasError('email') && !billingDetails.get('billingEmail').hasError('required')">
+                        Please enter a valid email address
+                    </mat-error>
+                    <mat-error *ngIf="billingDetails.get('billingEmail').hasError('required')">
+                        Email is required
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="">
+                    <mat-label>Your Phone</mat-label>
+                    <input type="text" minlength="10" maxlength="10" matInput formControlName="billingPhone">
+                    <mat-error *ngIf="billingDetails.get('billingPhone').hasError('required')">
+                        Phone is required
+                    </mat-error>
+                    <mat-error *ngIf="billingDetails.get('billingPhone').hasError('minlength') || billingDetails.get('billingPhone').hasError('pattern')">
+                        Phone number should be 10 digits
+                      </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Your Address</mat-label>
+                    <textarea formControlName="billingAddress" matInput rows="3"></textarea>
+                    <mat-hint align="start">Please enter your correct address.</mat-hint>
+                    <mat-error *ngIf="billingDetails.get('billingAddress').hasError('required')">
+                        Address is required
+                    </mat-error>
+                  </mat-form-field>
+                <div class="mt-4 mb-2" fxLayout="row" fxLayoutAlign="flex-end center">
+                    <button aria-label="Submit" mat-raised-button class="btn btn-submit" (click)="submitBooks()">Submit</button>
+                </div>  
+              </div>
+            </form>
+        </div>
+    </div>
+    <div class="spinner-overlay" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
+        <mat-spinner diameter="40"></mat-spinner>
+    </div>
+</section>

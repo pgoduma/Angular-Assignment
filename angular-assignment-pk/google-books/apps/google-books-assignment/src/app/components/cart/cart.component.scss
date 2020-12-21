@@ -1,0 +1,15 @@
+$bg-primary-pink: #c91c5c;
+.cart{
+    .buy-book{
+        background: $bg-primary-pink;;
+        color: #fff;
+        font-size: 14px;
+    }
+    &-remove-book {
+        button.btn {
+        background: none;
+        border: none;
+        color: $bg-primary-pink;
+        }
+    }
+}

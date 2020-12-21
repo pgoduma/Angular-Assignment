@@ -1,0 +1,28 @@
+.home{
+    mat-toolbar{
+        background: #c91c5c;
+        color: #fff;
+    }
+    &-container{
+        min-height: 88vh;
+    }
+    &-sidenav{
+        min-width: 150px;
+    }
+}
+:host ::ng-deep{
+    .home{
+        mat-icon{
+            font-size: 22px;
+        }
+        .mat-list-item-content{
+            font-size: 14px;
+        }
+        .mat-badge-medium.mat-badge-above .mat-badge-content {
+            top: -23px;
+        }
+        .mat-badge-medium.mat-badge-before .mat-badge-content {
+            left: -15px;
+        }
+    }
+}

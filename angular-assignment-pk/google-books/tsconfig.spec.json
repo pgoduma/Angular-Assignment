@@ -1,0 +1,18 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+      "outDir": "./out-tsc/spec",
+      "types": [
+        "jasmine"
+      ]
+    },
+    "files": [
+      "apps/google-books-assignment/src/test.ts",
+      "apps/google-books-assignment/src/polyfills.ts"
+    ],
+    "include": [
+      "apps/google-books-assignment/src/**/*.spec.ts",
+      "apps/google-books-assignment/src/**/*.d.ts"
+    ]
+  }

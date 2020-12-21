@@ -1,0 +1,4 @@
+export class ApiKey
+{
+    public static BOOKS_URL  = "https://www.googleapis.com/books/v1/volumes";
+}
