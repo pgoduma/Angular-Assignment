@@ -7,15 +7,21 @@ import { BillingDetailsComponent } from './billing-details.component';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
+import { BookModel } from '../../models/book-model';
 describe('BillingDetailsComponent', () => {
   let component: BillingDetailsComponent;
   let fixture: ComponentFixture<BillingDetailsComponent>;
   let de: DebugElement;
   let el: HTMLElement;
+  let mockActivatedRoute;
   beforeEach( () => {
+      mockActivatedRoute = {params: of({page:'buy', id: 1})};
       TestBed.configureTestingModule({
       imports: [RouterTestingModule, ReactiveFormsModule, MatDialogModule],
       declarations: [ BillingDetailsComponent ],
+      providers: [{ provide: ActivatedRoute, useValue: mockActivatedRoute }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
@@ -90,7 +96,35 @@ describe('BillingDetailsComponent', () => {
     address.setValue('test address');
     expect(component.billingDetails.valid).toBeTruthy();
   });
-  
+
+  describe('frompage is buy', ()=>{
+    let data: BookModel = {
+      id: '1',
+      title: 'title 1',
+      subtitle: 'subtitle 1',
+      description: 'des 1',
+      authors: ['name'],
+      imageLinks: { smallThumbnail: 'smallthumbnail', thumbnail: 'thumbnail' },
+      averageRating: 5,
+      publisher: 'publisher',
+      pageCount: 10,
+      language: 'en',
+      billingName: 'name',
+      billingAddress: 'address',
+      billingEmail: 'test@test.com',
+      billingPhone: '9999999999',
+    };
+    it('should check if the frompage is buy', ()=>{
+      spyOn(component, 'submitBooks').and.callThrough();
+      component.submitBooks();
+      expect(component.fromPage).toEqual('buy');
+    });
+    it('should check setBillingData is called', ()=>{
+      spyOn(component, 'setBillingData').and.callThrough();
+      component.setBillingData(data);
+      expect(component.setBillingData).toHaveBeenCalledWith(data);
+    })
+  });
   it('should create', () => {
     expect(component).toBeTruthy();
   });
