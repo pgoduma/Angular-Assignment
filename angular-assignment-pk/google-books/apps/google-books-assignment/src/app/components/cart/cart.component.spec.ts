@@ -5,6 +5,7 @@ import { CartComponent } from './cart.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { SharedService } from '../../service/shared.service';
 import { BookModel } from '../../models/book-model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 describe('CartComponent', () => {
   let component: CartComponent;
@@ -35,7 +36,9 @@ describe('CartComponent', () => {
       declarations: [ CartComponent ],
       providers: [{
         provide: SharedService
-      }],
+      },
+      { provide: Router, useValue: mockRouter },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
@@ -87,6 +90,6 @@ describe('CartComponent', () => {
   it('should go to billing details page', () => {
     spyOn(component, 'proceedToBuy').and.callThrough();
     component.proceedToBuy();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/billing-details']);   
+    expect(mockRouter.navigate).toHaveBeenCalled();   
   });
 });

@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import { BookServiceService } from './book-service.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
@@ -12,7 +12,7 @@ describe('BookServiceService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports:[HttpClientTestingModule]
+      imports:[HttpClientTestingModule],
     });
     service = TestBed.inject(BookServiceService);
     mockHttp = TestBed.inject(HttpTestingController);
@@ -48,10 +48,12 @@ describe('BookServiceService', () => {
     expect(request.request.method).toBe('GET');
     request.flush(dummyBook);
   });
-  it('throws error', () => {
-    
+  it('should check 404 error', fakeAsync(() => {
+    const errorMsg = 'mock 404 error occured';
     service.getBooks('test').subscribe(
-      data => fail('Should have failed with 404 error'),
+      (data) => {
+        fail('Should have failed with 404 error')
+      },
       (error: HttpErrorResponse) => {
         if(error){
           expect(error.status).toEqual(404);
@@ -60,6 +62,7 @@ describe('BookServiceService', () => {
       }
     );
     const req = mockHttp.expectOne(`${ApiKey.BOOKS_URL}?q=test`);
-    req.flush('404 error', { status: 404, statusText: 'Not Found' });
-  });
+    req.flush(errorMsg, { status: 404, statusText: 'Not Found' });
+    tick();
+  }));
 });

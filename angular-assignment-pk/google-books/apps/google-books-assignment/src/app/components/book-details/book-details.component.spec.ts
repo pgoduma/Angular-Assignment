@@ -10,8 +10,8 @@ import { BookDetailsComponent } from './book-details.component';
 import { BookServiceService } from '../../service/book-service.service';
 import { SharedService } from '../../service/shared.service';
 import { BookModel } from '../../models/book-model';
-import { of } from 'rxjs';
-import { Router, RouterOutlet, ActivatedRoute } from "@angular/router";
+import { Observable, of } from 'rxjs';
+import { Router, RouterOutlet, ActivatedRoute, convertToParamMap } from "@angular/router";
 import { RouterTestingModule } from '@angular/router/testing';
 import { BillingDetailsComponent } from '../billing-details/billing-details.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -22,6 +22,8 @@ describe('BookDetailsComponent', () => {
   let service: BookServiceService;
   let sharedService: SharedService;
   let mockRouter;
+  let mockActivatedRoute;
+  let id;
   let data: BookModel = {
     id: '1',
     title: 'title 1',
@@ -40,6 +42,7 @@ describe('BookDetailsComponent', () => {
   };
   beforeEach(() => {
     mockRouter = { navigate: jasmine.createSpy('navigate') };
+    mockActivatedRoute = {params: of({id: 1})};
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -57,6 +60,8 @@ describe('BookDetailsComponent', () => {
         {
           provide: SharedService
         },
+        { provide: Router, useValue: mockRouter },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -65,6 +70,7 @@ describe('BookDetailsComponent', () => {
     service = TestBed.inject(BookServiceService);
     sharedService = TestBed.inject(SharedService);
     fixture.detectChanges();
+    
   });
 
   it('should fetch the book by id', () => {
@@ -72,6 +78,11 @@ describe('BookDetailsComponent', () => {
     service.getBookById('123');
     fixture.detectChanges();
     expect(service.getBookById).toHaveBeenCalledWith('123');
+  });
+  it('should go to billing details page', () => {
+    spyOn(component, 'buyNow').and.callThrough();
+    component.buyNow(data);
+    expect(mockRouter.navigate).toHaveBeenCalled();   
   });
   describe('addtocart', ()=>{
     it('should call addToCart when add to cart button clicked', () => {
@@ -92,10 +103,5 @@ describe('BookDetailsComponent', () => {
       let itemExists = sharedService.cartItems.some(item=>item.id === data.id);
       expect(itemExists).toBeFalse();
     })
-    it('should go to billing details page', () => {
-      spyOn(component, 'buyNow').and.callThrough();
-      component.buyNow(data);
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['/billing-details']);   
-    });
   })
 });
