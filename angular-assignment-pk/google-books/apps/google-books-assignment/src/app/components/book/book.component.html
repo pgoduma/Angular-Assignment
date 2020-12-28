@@ -50,7 +50,7 @@
             <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutAlign="space-between center" fxLayoutAlign.lt-sm="flex-start flex-start">
                 <div *ngIf="book.authors">
                     <p aria-label="written by" class="mb-1"><strong> Written By:</strong></p>
-                    <span aria-label="book author" *ngFor="let author of book.authors;let i = index;trackBy:trackByAuthor"><span *ngIf="i != 0 && i != book.authors.length-1">, </span><span *ngIf="i == book.authors.length-1 && book.authors.length > 1"> and </span>{{author}}</span>
+                    <span aria-label="book author" *ngFor="let author of book.authors;let i = index;trackBy:trackByAuthor(author)"><span *ngIf="i != 0 && i != book.authors.length-1">, </span><span *ngIf="i == book.authors.length-1 && book.authors.length > 1"> and </span>{{author}}</span>
                 </div>
                 <ng-content select="[remFromCart]"></ng-content>
             </div>

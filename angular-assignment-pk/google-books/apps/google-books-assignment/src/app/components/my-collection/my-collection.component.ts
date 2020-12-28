@@ -10,7 +10,7 @@ export class MyCollectionComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  trackByBook(index, book) {
+  trackByBook(book) {
     return book.id;
   }
 }

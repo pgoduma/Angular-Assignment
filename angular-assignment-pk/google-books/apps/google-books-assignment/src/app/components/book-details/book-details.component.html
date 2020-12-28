@@ -2,8 +2,8 @@
 <section class="book-details" *ngIf="book">
     <app-book [book]="book">
         <div cartButtons class="book-details-actions">
-            <button class="btn btn-card-actions mr-3" (click)="addToCart(book)">ADD TO CART</button>
-            <button class="btn btn-card-actions" (click)="buyNow(book)">BUY</button>
+            <button id="add-to-cart" class="btn btn-card-actions mr-3" (click)="addToCart(book)">ADD TO CART</button>
+            <button id="buy-now" class="btn btn-card-actions" (click)="buyNow(book)">BUY</button>
         </div>
     </app-book>
 </section>

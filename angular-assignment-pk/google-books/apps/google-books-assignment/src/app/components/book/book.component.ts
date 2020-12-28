@@ -17,4 +17,7 @@ export class BookComponent implements OnInit {
   hasRoute(route: string) {
     return this.router.url.includes(route);
   }
+  trackByAuthor(author:string){
+    return author;
+  }
 }

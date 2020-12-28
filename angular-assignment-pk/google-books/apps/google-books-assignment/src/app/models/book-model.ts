@@ -16,17 +16,15 @@ export class BookModel{
 
     constructor(book, id){
         this.id = id;
-        if(book){
-            this.title = book.title;
-            this.subtitle = book.subtitle;
-            this.description = book.description;
-            this.authors = book.authors;
-            this.imageLinks.smallThumbnail = book.imageLinks?book.imageLinks.smallThumbnail:'';
-            this.imageLinks.thumbnail = book.imageLinks?book.imageLinks.thumbnail:'';
-            this.averageRating = book.averageRating;
-            this.publisher = book.publisher;
-            this.pageCount = book.pageCount;
-            this.language = book.language;
-        }
+            this.title = book?book.title:'';
+            this.subtitle = book?book.subtitle:'';
+            this.description = book?book.description:'';
+            this.authors = book?book.authors:[];
+            this.imageLinks.smallThumbnail = book?book.imageLinks?book.imageLinks.smallThumbnail:'':'';
+            this.imageLinks.thumbnail = book?book.imageLinks?book.imageLinks.thumbnail:'':'';
+            this.averageRating = book?book.averageRating:'';
+            this.publisher = book?book.publisher:'';
+            this.pageCount = book?book.pageCount:'';
+            this.language = book?book.language:'';
     }
 }

@@ -25,7 +25,7 @@ export class CartComponent implements OnInit {
     this.router.navigate(['billing-details', 'cart', '']);
   }
 
-  trackByBook(index, book) {
+  trackByBook(book) {
     return book.id;
   }
 }

@@ -1,17 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 
 import { BillingDetailsComponent } from './billing-details.component';
+import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 describe('BillingDetailsComponent', () => {
   let component: BillingDetailsComponent;
   let fixture: ComponentFixture<BillingDetailsComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  let de: DebugElement;
+  let el: HTMLElement;
+  beforeEach( () => {
+      TestBed.configureTestingModule({
       imports: [RouterTestingModule, ReactiveFormsModule, MatDialogModule],
-      declarations: [ BillingDetailsComponent ]
+      declarations: [ BillingDetailsComponent ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
   });
@@ -19,9 +24,10 @@ describe('BillingDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BillingDetailsComponent);
     component = fixture.componentInstance;
+    de = fixture.debugElement.query(By.css('form'));
+    el = de.nativeElement;
     fixture.detectChanges();
   });
-
   it('Should check if "Your Name" field is valid',()=>{
     let name = component.billingDetails.controls['billingName'];
     expect(name.valid).toBeFalsy();
@@ -31,7 +37,7 @@ describe('BillingDetailsComponent', () => {
     expect(name.errors).toBeNull();
   });
   it('Should check if "Your Address" field is valid',()=>{
-    let address = component.billingDetails.controls['billingName'];
+    let address = component.billingDetails.controls['billingAddress'];
     expect(address.valid).toBeFalsy();
     expect(address.pristine).toBeTruthy();
     expect(address.errors['required']).toBeTruthy();
@@ -64,6 +70,27 @@ describe('BillingDetailsComponent', () => {
     expect(email.errors).toBeNull();
   });
 
+  it('Should check the billing details are valid on submit click', ()=>{
+    el = fixture.debugElement.nativeElement.querySelector('#btn-submit');
+    el.click();
+    spyOn(component, 'submitBooks').and.callThrough();
+    component.submitBooks();
+    fixture.detectChanges();
+    expect(component.submitBooks).toHaveBeenCalled();
+
+  });
+  it('Should check form is valid', ()=>{
+    let name = component.billingDetails.controls['billingName'];
+    name.setValue('test name');
+    let email = component.billingDetails.controls['billingEmail'];
+    email.setValue('test@test.com');
+    let phone = component.billingDetails.controls['billingPhone'];
+    phone.setValue('9899988889');
+    let address = component.billingDetails.controls['billingAddress'];
+    address.setValue('test address');
+    expect(component.billingDetails.valid).toBeTruthy();
+  });
+  
   it('should create', () => {
     expect(component).toBeTruthy();
   });

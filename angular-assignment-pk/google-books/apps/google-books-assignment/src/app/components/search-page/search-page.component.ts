@@ -17,6 +17,7 @@ export class SearchPageComponent implements OnInit {
   @ViewChild('inputQuery') inputQuery: ElementRef;
   booksArr: BookModel[];
   searchFieldInput: FormControl = new FormControl('');
+  errMsg:string;
   constructor(
     private bookService: BookServiceService,
     private router: Router,
@@ -44,18 +45,16 @@ export class SearchPageComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.snackBar.open('Error retrieving books, Please try again', '', {
+        this.errMsg = 'Error retrieving books, Please try again';
+        this.snackBar.open(this.errMsg, '', {
           duration: 2000,
         });
         this.loading = false;
       }
     );
   }
-  trackByBook(index, book) {
+  trackByBook(book) {
     return book.id;
-  }
-  trackByAuthor(index, author) {
-    return author;
   }
   gotoBookDetail(id: string): void {
     //go to selected book
