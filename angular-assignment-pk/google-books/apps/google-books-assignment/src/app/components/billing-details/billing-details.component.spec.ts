@@ -1,27 +1,35 @@
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
-import { BillingDetailsComponent } from './billing-details.component';
+import { BillingDetailsComponent, PurchaseSuccessDialog } from './billing-details.component';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { BookModel } from '../../models/book-model';
+import { SharedService } from '../../service/shared.service';
+
 describe('BillingDetailsComponent', () => {
   let component: BillingDetailsComponent;
   let fixture: ComponentFixture<BillingDetailsComponent>;
   let de: DebugElement;
   let el: HTMLElement;
   let mockActivatedRoute;
+  let sharedService;
+  // let mockMatdialogRef;
   beforeEach( () => {
       mockActivatedRoute = {params: of({page:'buy', id: 1})};
+
       TestBed.configureTestingModule({
       imports: [RouterTestingModule, ReactiveFormsModule, MatDialogModule],
-      declarations: [ BillingDetailsComponent ],
-      providers: [{ provide: ActivatedRoute, useValue: mockActivatedRoute }],
+      declarations: [ BillingDetailsComponent,  PurchaseSuccessDialog],
+      providers: [{ provide: ActivatedRoute, useValue: mockActivatedRoute },
+                  { provide: SharedService},
+                  {provide: MatDialogRef, useFactory: () => jasmine.createSpyObj('MatDialogRef', ['close', 'afterClosed']) }
+                ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
@@ -32,6 +40,7 @@ describe('BillingDetailsComponent', () => {
     component = fixture.componentInstance;
     de = fixture.debugElement.query(By.css('form'));
     el = de.nativeElement;
+    sharedService = TestBed.inject(SharedService);
     fixture.detectChanges();
   });
   it('Should check if "Your Name" field is valid',()=>{
@@ -119,12 +128,44 @@ describe('BillingDetailsComponent', () => {
       component.submitBooks();
       expect(component.fromPage).toEqual('buy');
     });
+    it('should retrive the book from booksData', ()=>{
+      spyOn(component, 'submitBooks').and.callThrough();
+      component.submitBooks();
+      expect(component.fromPage).toEqual('buy');
+      let spy = spyOnProperty(sharedService, 'booksData', 'get').and.returnValue([data]);
+      sharedService.booksData;
+      const book = sharedService.booksData.filter(item=>item.id == data.id)[0];
+      expect(spy).toHaveBeenCalled();
+      expect(book).toEqual(data);
+    });
     it('should check setBillingData is called', ()=>{
       spyOn(component, 'setBillingData').and.callThrough();
       component.setBillingData(data);
       expect(component.setBillingData).toHaveBeenCalledWith(data);
     })
   });
+  it('should open mat dialog component on openDialog',fakeAsync(() => {
+    spyOn(component, 'openDialog').and.callThrough();
+    component.openDialog();
+    fixture.detectChanges();
+    tick();
+    expect(component.openDialog).toHaveBeenCalled();
+  }));
+  describe('Close dialog component', ()=>{
+    let component: PurchaseSuccessDialog;
+    let fixture: ComponentFixture<PurchaseSuccessDialog>;
+    beforeEach(() => {
+      fixture = TestBed.createComponent(PurchaseSuccessDialog);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+    it('should close the dialog if close is clicked', () => {
+      spyOn(component, 'closeDialog').and.callThrough();
+      component.closeDialog();
+      expect(component.closeDialog).toHaveBeenCalled();
+    });
+  })
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
