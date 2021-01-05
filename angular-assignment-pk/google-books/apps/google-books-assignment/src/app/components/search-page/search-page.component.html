@@ -7,7 +7,7 @@
     </div>
     
     <div fxLayout="row wrap"  fxLayout.lt-md="column" fxLayoutGap="0px" fxLayoutAlign="space-between">
-            <div (click)="gotoBookDetail(book.id)" class="mb-4 search-books-cards" *ngFor="let book of shared.booksData; let i = index; trackBy: trackByBook" fxFlex="0 1 calc(48%)" fxFlex.lt-md="100%">
+            <div (click)="gotoBookDetail(book.id)" class="mb-4 search-books-cards" *ngFor="let book of booksList$ | async; let i = index; trackBy: trackByBook" fxFlex="0 1 calc(48%)" fxFlex.lt-md="100%">
                 <app-book [book]="book"></app-book>
             </div>
     </div>

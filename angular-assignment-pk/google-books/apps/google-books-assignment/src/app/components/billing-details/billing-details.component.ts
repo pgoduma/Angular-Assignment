@@ -8,6 +8,11 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookModel } from '../../models/book-model';
 import { SharedService } from '../../service/shared.service';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/models/app-state.model';
+import { AddToMyCollection, RemFromCart } from 'src/app/store/actions/books.actions';
+import { filter, map } from 'rxjs/operators';
+import { BooksFacade } from 'src/app/store/books.facade';
 
 @Component({
   selector: 'app-billing-details',
@@ -24,7 +29,9 @@ export class BillingDetailsComponent implements OnInit {
     private shared: SharedService,
     private router: Router,
     public dialog: MatDialog,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private store: Store<AppState>,
+    private bookFacadeService: BooksFacade
   ) {
     this.route.params.subscribe((params) => {
       this.fromPage = params.page;
@@ -45,28 +52,39 @@ export class BillingDetailsComponent implements OnInit {
   }
   submitBooks() {
     if (this.billingDetails.valid) {
-      if(this.fromPage === 'buy'){
-        const book = this.shared.booksData.filter(book=>book.id === this.bookId)[0];
-        this.setBillingData(book);
-        this.shared.myCollectionItems.push(book);
+      if (this.fromPage === 'buy') {
+        let book;
+        this.store
+          .select((store) => store.books.booksList)
+          .pipe(map((arr) => arr.filter((item) => item.id === this.bookId)))
+          .subscribe((res) => {
+            book = this.setBillingData({...res[0]})
+          });
+        this.bookFacadeService.addToMyCollection(book);
       }
-      if(this.fromPage === 'cart'){
-       this.shared.cartItems.forEach((book) => {
-          this.setBillingData(book);
-          this.shared.myCollectionItems.push(book);
-        });
-        this.shared.cartItems = [];
+      if (this.fromPage === 'cart') {
+        let books = [];
+        this.store
+          .select((store) => store.books.cartItems)
+          .pipe(map((arr) => arr.map((item) => this.setBillingData({...item}))))
+          .subscribe((res) => {
+            books = [...res];
+          });
+          books.forEach(book=>{
+          this.bookFacadeService.addToMyCollection(book);
+          this.bookFacadeService.remFromCart(book);
+        })
       }
-      console.log(this.shared.myCollectionItems);
       this.openDialog();
     }
   }
-  setBillingData(book: BookModel){
+  setBillingData(book: BookModel) {
     let billingData = this.billingDetails.value;
     book.billingName = billingData.billingName;
     book.billingPhone = billingData.billingPhone;
     book.billingEmail = billingData.billingEmail;
     book.billingAddress = billingData.billingAddress;
+    return book;
   }
   openDialog() {
     const config = new MatDialogConfig();

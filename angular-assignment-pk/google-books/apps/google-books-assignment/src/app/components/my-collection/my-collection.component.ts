@@ -1,14 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedService } from '../../service/shared.service';
+import { Observable } from 'rxjs';
+import { BookModel } from 'src/app/models/book-model';
+import { BooksFacade } from 'src/app/store/books.facade';
 @Component({
   selector: 'app-my-collection',
   templateUrl: './my-collection.component.html',
   styleUrls: ['./my-collection.component.scss'],
 })
 export class MyCollectionComponent implements OnInit {
-  constructor(public shared: SharedService) {}
+  myCollectionItems$: Observable<BookModel[]>
+  constructor(private bookFacadeService: BooksFacade) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.myCollectionItems$ = this.bookFacadeService.myCollectionItemsList$;
+  }
 
   trackByBook(book) {
     return book.id;

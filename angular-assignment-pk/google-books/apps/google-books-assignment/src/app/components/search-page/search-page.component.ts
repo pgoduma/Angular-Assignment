@@ -1,11 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { BookServiceService } from '../../service/book-service.service';
 import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { BookModel } from '../../models/book-model';
 import { SharedService } from '../../service/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { BooksFacade } from 'src/app/store/books.facade';
 
 @Component({
   selector: 'app-search-page',
@@ -13,17 +14,20 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./search-page.component.scss'],
 })
 export class SearchPageComponent implements OnInit {
+  booksList$:Observable<BookModel[]>;
   loading: boolean = false;
   @ViewChild('inputQuery') inputQuery: ElementRef;
   booksArr: BookModel[];
   searchFieldInput: FormControl = new FormControl('');
   errMsg:string;
   constructor(
-    private bookService: BookServiceService,
     private router: Router,
     public shared: SharedService,
-    private snackBar: MatSnackBar
-  ) {}
+    private snackBar: MatSnackBar,
+    private bookFacadeService: BooksFacade
+  ) {
+    this.booksList$ = this.bookFacadeService.booksList$
+  }
   ngOnInit(): void {
     this.searchFieldInput.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged())
@@ -31,27 +35,12 @@ export class SearchPageComponent implements OnInit {
         let searchQuery = text.replace(/\s/g, '');
         if (searchQuery.length >= 2) {
           this.getBooksList(searchQuery);
-          this.loading = true;
         }
       });
   }
   getBooksList(query): void {
     //get books list
-    this.bookService.getBooks(query).subscribe(
-      (books: BookModel[]) => {
-        this.shared.booksData = books.map((book) => new BookModel(book['volumeInfo'], book.id));
-        this.loading = false;
-        console.log(this.shared.booksData);
-      },
-      (error) => {
-        console.log(error);
-        this.errMsg = 'Error retrieving books, Please try again';
-        this.snackBar.open(this.errMsg, '', {
-          duration: 2000,
-        });
-        this.loading = false;
-      }
-    );
+    this.bookFacadeService.loadBooks(query);
   }
   trackByBook(book) {
     return book.id;

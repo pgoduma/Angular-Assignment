@@ -5,7 +5,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 //material
 import {MaterialModule} from './material/material.module'
 
@@ -19,6 +21,9 @@ import { SearchPageComponent } from './components/search-page/search-page.compon
 import { BookComponent } from './components/book/book.component';
 import { BookDetailsComponent } from './components/book-details/book-details.component';
 import { BillingDetailsComponent } from './components/billing-details/billing-details.component';
+import { BooksReducer } from './store/reducers/books.reducer';
+import { environment } from '../environments/environment';
+import { BooksEffects } from './store/effects/books.effects';
 
 @NgModule({
   imports: [
@@ -30,6 +35,11 @@ import { BillingDetailsComponent } from './components/billing-details/billing-de
     FormsModule,
     MaterialModule,
     ReactiveFormsModule,
+    StoreModule.forRoot({
+      books: BooksReducer
+    }),
+    EffectsModule.forRoot([BooksEffects]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   declarations: [
     AppComponent,

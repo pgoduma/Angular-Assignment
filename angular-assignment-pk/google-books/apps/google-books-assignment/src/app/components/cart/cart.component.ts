@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BookModel } from '../../models/book-model';
 import { SharedService } from '../../service/shared.service';
+import { Observable } from 'rxjs';
+import { BooksFacade } from 'src/app/store/books.facade';
+
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -9,16 +12,19 @@ import { SharedService } from '../../service/shared.service';
 })
 export class CartComponent implements OnInit {
   actionInfo: string;
-  constructor(private router: Router, public shared: SharedService) {
-  }
+  cartItems$: Observable<BookModel[]>;
+  constructor(
+    private router: Router,
+    public shared: SharedService,
+    private bookFacadeService: BooksFacade
+  ) {}
 
   ngOnInit(): void {
+    this.cartItems$ = this.bookFacadeService.cartItemsList$;
   }
 
   removeBook(book: BookModel) {
-      this.shared.cartItems = this.shared.cartItems.filter(
-        (item: BookModel) => item.id !== book.id
-      );
+    this.bookFacadeService.remFromCart(book);
   }
 
   proceedToBuy() {

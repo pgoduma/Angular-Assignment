@@ -4,6 +4,7 @@ import { BookModel } from '../../models/book-model';
 import { BookServiceService } from '../../service/book-service.service';
 import { SharedService } from '../../service/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BooksFacade } from 'src/app/store/books.facade';
 
 @Component({
   selector: 'app-book-details',
@@ -20,7 +21,9 @@ export class BookDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private shared: SharedService,
     private bookService: BookServiceService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private bookFacadeService: BooksFacade
+
   ) {
     this.route.params.subscribe((params) => {
       this.bookId = params.id;
@@ -40,12 +43,7 @@ export class BookDetailsComponent implements OnInit {
   }
 
   addToCart(book: BookModel) {
-        if(!this.shared.cartItems.some(item=>item.id === book.id)){
-          this.shared.cartItems.push(book);
-          this.snackBar.open('Book successfully added to cart', '', {
-            duration: 2000,
-          });
-        }
+        this.bookFacadeService.addToCart(book);
   }
 
   buyNow(book: BookModel){

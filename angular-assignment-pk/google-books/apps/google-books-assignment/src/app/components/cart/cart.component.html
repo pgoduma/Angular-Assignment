@@ -1,7 +1,7 @@
 <section class="cart">
-    <p *ngIf="shared.cartItems.length === 0">Cart is empty</p>
+    <p *ngIf="(cartItems$ | async).length===0">Cart is empty</p>
     <div fxLayout="row wrap"  fxLayout.lt-md="column" fxLayoutGap="0px" fxLayoutAlign="space-between">
-        <div class="mb-4" *ngFor="let book of shared.cartItems; let i = index; trackBy: trackByBook" fxFlex="0 1 calc(48%)" fxFlex.lt-md="100%">
+        <div class="mb-4" *ngFor="let book of cartItems$ | async; let i = index; trackBy: trackByBook" fxFlex="0 1 calc(48%)" fxFlex.lt-md="100%">
             <app-book [book]="book">
                 <div remFromCart class="cart-remove-book mt-sm-0 mt-3">
                     <button class="btn px-0" (click)="removeBook(book)"><mat-icon aria-hidden="false" aria-label="delete cart">remove_shopping_cart</mat-icon></button>
@@ -9,7 +9,7 @@
             </app-book>
         </div>
     </div>
-    <div *ngIf="shared.cartItems.length>0" class="my-3">
+    <div *ngIf="(cartItems$ | async).length>0" class="my-3">
         <button class="btn buy-book" (click)="proceedToBuy()">Proceed to Buy</button>
     </div>
 </section>
