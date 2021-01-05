@@ -12,11 +12,10 @@ import { SearchPageComponent } from './search-page.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BookModel } from '../../models/book-model';
-import { Observable, Observer, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { BookComponent } from '../book/book.component';
-import { By } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
-import { BookDetailsComponent } from '../book-details/book-details.component';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('SearchPageComponent', () => {
   let component: SearchPageComponent;
@@ -69,6 +68,7 @@ describe('SearchPageComponent', () => {
       },
     ];
     mockBooksService = jasmine.createSpyObj(['getBooks']);
+    const initialState = {};
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -81,6 +81,7 @@ describe('SearchPageComponent', () => {
         { provide: BookServiceService, useValue: mockBooksService },
         { provide: Router, useValue: mockRouter },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        provideMockStore({ initialState }),
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -91,6 +92,9 @@ describe('SearchPageComponent', () => {
     component = fixture.componentInstance;
     // myService = TestBed.inject(BookServiceService);
     fixture.detectChanges();
+  });
+  afterEach(() => {
+    fixture.destroy();
   });
   it('should create', () => {
     expect(component).toBeTruthy();

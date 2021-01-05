@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { BookModel } from '../../models/book-model';
 import { SharedService } from '../../service/shared.service';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('BillingDetailsComponent', () => {
   let component: BillingDetailsComponent;
@@ -19,16 +20,19 @@ describe('BillingDetailsComponent', () => {
   let el: HTMLElement;
   let mockActivatedRoute;
   let sharedService;
-  // let mockMatdialogRef;
+  let mockMatdialogRef;
   beforeEach( () => {
       mockActivatedRoute = {params: of({page:'buy', id: 1})};
-
+      // mockMatdialogRef = jasmine.createSpyObj(['close', 'afterClosed'])
+      const initialState = {};
       TestBed.configureTestingModule({
       imports: [RouterTestingModule, ReactiveFormsModule, MatDialogModule],
       declarations: [ BillingDetailsComponent,  PurchaseSuccessDialog],
       providers: [{ provide: ActivatedRoute, useValue: mockActivatedRoute },
                   { provide: SharedService},
-                  {provide: MatDialogRef, useFactory: () => jasmine.createSpyObj('MatDialogRef', ['close', 'afterClosed']) }
+                  {provide: MatDialogRef, useFactory: () => jasmine.createSpyObj('MatDialogRef', ['close', 'afterClosed']) },
+                  // {provide: MatDialogRef, useValue: mockMatdialogRef },
+                  provideMockStore({ initialState }),
                 ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
@@ -41,6 +45,7 @@ describe('BillingDetailsComponent', () => {
     de = fixture.debugElement.query(By.css('form'));
     el = de.nativeElement;
     sharedService = TestBed.inject(SharedService);
+    mockMatdialogRef = TestBed.inject(MatDialogRef);
     fixture.detectChanges();
   });
   it('Should check if "Your Name" field is valid',()=>{
@@ -105,6 +110,17 @@ describe('BillingDetailsComponent', () => {
     address.setValue('test address');
     expect(component.billingDetails.valid).toBeTruthy();
   });
+  it('Should check form is invalid', ()=>{
+    let name = component.billingDetails.controls['billingName'];
+    name.setValue('');
+    let email = component.billingDetails.controls['billingEmail'];
+    email.setValue('');
+    let phone = component.billingDetails.controls['billingPhone'];
+    phone.setValue('9899988889');
+    let address = component.billingDetails.controls['billingAddress'];
+    address.setValue('test address');
+    expect(component.billingDetails.valid).toBeFalsy();
+  });
 
   describe('frompage is buy', ()=>{
     let data: BookModel = {
@@ -162,6 +178,7 @@ describe('BillingDetailsComponent', () => {
     it('should close the dialog if close is clicked', () => {
       spyOn(component, 'closeDialog').and.callThrough();
       component.closeDialog();
+      mockMatdialogRef.afterClosed.and.returnValue(of({data:'data'}));
       expect(component.closeDialog).toHaveBeenCalled();
     });
   })

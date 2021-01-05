@@ -8,11 +8,8 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookModel } from '../../models/book-model';
 import { SharedService } from '../../service/shared.service';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/models/app-state.model';
-import { AddToMyCollection, RemFromCart } from 'src/app/store/actions/books.actions';
-import { filter, map } from 'rxjs/operators';
-import { BooksFacade } from 'src/app/store/books.facade';
+import { map } from 'rxjs/operators';
+import { BooksFacade } from '../../store/books.facade';
 
 @Component({
   selector: 'app-billing-details',
@@ -28,9 +25,8 @@ export class BillingDetailsComponent implements OnInit {
     private fb: FormBuilder,
     private shared: SharedService,
     private router: Router,
-    public dialog: MatDialog,
+    public  dialog: MatDialog,
     private route: ActivatedRoute,
-    private store: Store<AppState>,
     private bookFacadeService: BooksFacade
   ) {
     this.route.params.subscribe((params) => {
@@ -54,8 +50,7 @@ export class BillingDetailsComponent implements OnInit {
     if (this.billingDetails.valid) {
       if (this.fromPage === 'buy') {
         let book;
-        this.store
-          .select((store) => store.books.booksList)
+        this.bookFacadeService.booksList$
           .pipe(map((arr) => arr.filter((item) => item.id === this.bookId)))
           .subscribe((res) => {
             book = this.setBillingData({...res[0]})
@@ -64,8 +59,7 @@ export class BillingDetailsComponent implements OnInit {
       }
       if (this.fromPage === 'cart') {
         let books = [];
-        this.store
-          .select((store) => store.books.cartItems)
+        this.bookFacadeService.cartItemsList$
           .pipe(map((arr) => arr.map((item) => this.setBillingData({...item}))))
           .subscribe((res) => {
             books = [...res];

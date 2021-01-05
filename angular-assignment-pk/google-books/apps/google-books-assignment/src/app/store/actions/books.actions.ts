@@ -4,6 +4,7 @@ import { BookModel } from '../../models/book-model';
 export enum BookActionTypes {
   LOAD_BOOKS = '[Search] load Books by query',
   LOAD_BOOKS_SUCCESS = '[Search] load Books by query success',
+  LOAD_BOOKS_FAILURE = '[Search] load Books by query failure',
   ADD_BOOK_TO_CART = '[CART] Add Book',
   REM_BOOK_FROM_CART = '[CART] Remove Book',
   ADD_TO_MY_COLLECTION = '[MYCOLLECTION] Add Book',
@@ -16,6 +17,10 @@ export class LoadBooks implements Action {
 export class LoadBooksSuccess implements Action {
   readonly type = BookActionTypes.LOAD_BOOKS_SUCCESS;
   constructor(public payload: BookModel[]) {}
+}
+export class LoadBooksFailure implements Action {
+  readonly type = BookActionTypes.LOAD_BOOKS_FAILURE;
+  constructor(public payload: string) {}
 }
 
 export class AddToCart implements Action {

@@ -6,6 +6,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { SharedService } from '../../service/shared.service';
 import { BookModel } from '../../models/book-model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('CartComponent', () => {
   let component: CartComponent;
@@ -31,13 +32,15 @@ describe('CartComponent', () => {
 
   beforeEach( () => {
     mockRouter = { navigate: jasmine.createSpy('navigate') };
+    const initialState = {};
       TestBed.configureTestingModule({
       imports: [RouterTestingModule, MatSnackBarModule],
       declarations: [ CartComponent ],
       providers: [{
-        provide: SharedService
+        provide: SharedService,
       },
       { provide: Router, useValue: mockRouter },
+      provideMockStore({ initialState }),
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
@@ -51,17 +54,17 @@ describe('CartComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('Should remove book from cart', () => {
+  it('Should removeBook to be called', () => {
       spyOn(component, 'removeBook').and.callThrough();
       component.removeBook(data);
-      const spy = spyOnProperty(sharedService, 'cartItems', 'get').and.returnValue([data]);
-      spy();
-      expect(spy).toHaveBeenCalled();
-      let itemExists = sharedService.cartItems.filter(item=>item.id != data.id);
-      expect(itemExists.length).toBe(0);
+      expect(component.removeBook).toHaveBeenCalled();
   })
   it('Should check trackByBook is called', fakeAsync(() => {
     const dummyBook = {

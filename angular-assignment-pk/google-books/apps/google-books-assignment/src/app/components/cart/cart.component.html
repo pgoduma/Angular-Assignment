@@ -1,5 +1,5 @@
 <section class="cart">
-    <p *ngIf="(cartItems$ | async).length===0">Cart is empty</p>
+    <p *ngIf="(cartItems$ | async)?.length===0">Cart is empty</p>
     <div fxLayout="row wrap"  fxLayout.lt-md="column" fxLayoutGap="0px" fxLayoutAlign="space-between">
         <div class="mb-4" *ngFor="let book of cartItems$ | async; let i = index; trackBy: trackByBook" fxFlex="0 1 calc(48%)" fxFlex.lt-md="100%">
             <app-book [book]="book">
@@ -9,7 +9,7 @@
             </app-book>
         </div>
     </div>
-    <div *ngIf="(cartItems$ | async).length>0" class="my-3">
+    <div *ngIf="(cartItems$ | async)?.length>0" class="my-3">
         <button class="btn buy-book" (click)="proceedToBuy()">Proceed to Buy</button>
     </div>
 </section>

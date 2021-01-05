@@ -1,8 +1,14 @@
-import { BookModel } from '../../models/book-model';
 import * as bookActions from '../actions/books.actions';
-import { BillingDetails } from 'src/app/models/billing-details-model';
-import { BooksState, initialState } from 'src/app/models/app-state.model';
+import { BooksState } from '../../models/app-state.model';
 
+export const initialState: BooksState = {
+  booksList: [],
+  cartItems: [],
+  myCollectionItems: [],
+  searchQuery: '',
+  recentSearches: [],
+  billingDetails: [],
+}
 export function BooksReducer(
   state: BooksState = initialState,
   action: bookActions.BookActions

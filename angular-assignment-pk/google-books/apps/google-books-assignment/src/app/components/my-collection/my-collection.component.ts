@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BookModel } from 'src/app/models/book-model';
-import { BooksFacade } from 'src/app/store/books.facade';
+import { BookModel } from '../../models/book-model';
+import { BooksFacade } from '../../store/books.facade';
 @Component({
   selector: 'app-my-collection',
   templateUrl: './my-collection.component.html',

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BookServiceService } from 'src/app/service/book-service.service';
+import { BookServiceService } from '../../service/book-service.service';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import * as bookActions from '../actions/books.actions';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { BookModel } from 'src/app/models/book-model';
+import { BookModel } from '../../models/book-model';
 
 @Injectable({ providedIn: 'root' })
 export class BooksEffects {
@@ -27,6 +27,7 @@ export class BooksEffects {
           ),
           catchError(error=>{
             console.log(error);
+            new bookActions.LoadBooksFailure('Error retrieving books');
             throw new Error(error);
           })
         );

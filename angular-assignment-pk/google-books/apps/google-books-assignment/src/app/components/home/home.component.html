@@ -8,12 +8,12 @@
             <mat-nav-list role="list">
                 <a mat-list-item role="list-item" [routerLink]="'/search'"><mat-icon class="mx-2" aria-hidden="false" aria-label="search icon">search</mat-icon> Search</a>
                 <a mat-list-item role="list-item" [routerLink]="'/cart'">
-                  <span *ngIf="(cartItems$ | async).length>0" matBadge="{{(cartItems$ | async).length}}" matBadgePosition="before" matBadgeColor="accent" matBadgeOverlap="false"></span>
+                  <span *ngIf="(cartItems$ | async)?.length>0" matBadge="{{(cartItems$ | async).length}}" matBadgePosition="before" matBadgeColor="accent" matBadgeOverlap="false"></span>
                   <mat-icon class="mx-2" aria-hidden="false" aria-label="shopping cart icon">shopping_cart</mat-icon> 
                   Cart
                 </a>
                 <a mat-list-item role="list-item" [routerLink]="'/mycollection'">
-                  <span *ngIf="(myCollectionItems$ | async).length>0" matBadge="{{(myCollectionItems$ | async).length}}" matBadgePosition="before" matBadgeColor="accent" matBadgeOverlap="false"></span>
+                  <span *ngIf="(myCollectionItems$ | async)?.length>0" matBadge="{{(myCollectionItems$ | async).length}}" matBadgePosition="before" matBadgeColor="accent" matBadgeOverlap="false"></span>
                   <mat-icon class="mx-2" aria-hidden="false" aria-label="my collection icon">collections_bookmark</mat-icon> My Collection</a>
               </mat-nav-list>
           </mat-sidenav>

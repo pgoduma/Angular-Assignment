@@ -10,14 +10,6 @@ export interface BooksState {
     billingDetails: BillingDetails[];
 }
 
-export const initialState: BooksState = {
-    booksList: [],
-    cartItems: [],
-    myCollectionItems: [],
-    searchQuery: '',
-    recentSearches: [],
-    billingDetails: [],
-}
 
 export interface AppState {
     readonly books: BooksState,

@@ -15,6 +15,7 @@ import { Router, RouterOutlet, ActivatedRoute, convertToParamMap } from "@angula
 import { RouterTestingModule } from '@angular/router/testing';
 import { BillingDetailsComponent } from '../billing-details/billing-details.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('BookDetailsComponent', () => {
   let component: BookDetailsComponent;
@@ -43,6 +44,7 @@ describe('BookDetailsComponent', () => {
   beforeEach(() => {
     mockRouter = { navigate: jasmine.createSpy('navigate') };
     mockActivatedRoute = {params: of({id: 1})};
+    const initialState = {};
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -62,6 +64,7 @@ describe('BookDetailsComponent', () => {
         },
         { provide: Router, useValue: mockRouter },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        provideMockStore({ initialState }),
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

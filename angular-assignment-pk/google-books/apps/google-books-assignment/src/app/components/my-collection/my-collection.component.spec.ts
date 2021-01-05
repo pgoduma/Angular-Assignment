@@ -2,19 +2,30 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import { MyCollectionComponent } from './my-collection.component';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('MyCollectionComponent', () => {
   let component: MyCollectionComponent;
   let fixture: ComponentFixture<MyCollectionComponent>;
-
+  const initialState = {
+    booksList: [],
+    cartItems: [],
+    myCollectionItems: [],
+    searchQuery: '',
+    recentSearches: [],
+    billingDetails: [],
+  }
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ MyCollectionComponent ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [provideMockStore({ initialState })]
     })
     .compileComponents();
   });
-
+  afterEach(() => {
+    fixture.destroy();
+  });
   beforeEach(() => {
     fixture = TestBed.createComponent(MyCollectionComponent);
     component = fixture.componentInstance;

@@ -6,7 +6,7 @@ import { BookModel } from '../../models/book-model';
 import { SharedService } from '../../service/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
-import { BooksFacade } from 'src/app/store/books.facade';
+import { BooksFacade } from '../../store/books.facade';
 
 @Component({
   selector: 'app-search-page',

@@ -4,7 +4,7 @@ import { BookModel } from '../../models/book-model';
 import { BookServiceService } from '../../service/book-service.service';
 import { SharedService } from '../../service/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BooksFacade } from 'src/app/store/books.facade';
+import { BooksFacade } from '../../store/books.facade';
 
 @Component({
   selector: 'app-book-details',
