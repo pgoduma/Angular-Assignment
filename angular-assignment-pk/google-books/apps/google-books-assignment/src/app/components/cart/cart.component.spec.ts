@@ -3,7 +3,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CartComponent } from './cart.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { SharedService } from '../../service/shared.service';
 import { BookModel } from '../../models/book-model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -11,7 +10,6 @@ import { provideMockStore } from '@ngrx/store/testing';
 describe('CartComponent', () => {
   let component: CartComponent;
   let fixture: ComponentFixture<CartComponent>;
-  let sharedService: SharedService;
   let mockRouter;
   let data: BookModel = {
     id: '1',
@@ -36,9 +34,7 @@ describe('CartComponent', () => {
       TestBed.configureTestingModule({
       imports: [RouterTestingModule, MatSnackBarModule],
       declarations: [ CartComponent ],
-      providers: [{
-        provide: SharedService,
-      },
+      providers: [
       { provide: Router, useValue: mockRouter },
       provideMockStore({ initialState }),
       ],
@@ -50,7 +46,6 @@ describe('CartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CartComponent);
     component = fixture.componentInstance;
-    sharedService = TestBed.inject(SharedService);
     fixture.detectChanges();
   });
 

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BookModel } from '../../models/book-model';
-import { SharedService } from '../../service/shared.service';
 import { Observable } from 'rxjs';
 import { BooksFacade } from '../../store/books.facade';
 
@@ -15,7 +14,6 @@ export class CartComponent implements OnInit {
   cartItems$: Observable<BookModel[]>;
   constructor(
     private router: Router,
-    public shared: SharedService,
     private bookFacadeService: BooksFacade
   ) {}
 

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookModel } from '../../models/book-model';
 import { BookServiceService } from '../../service/book-service.service';
-import { SharedService } from '../../service/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BooksFacade } from '../../store/books.facade';
 
@@ -19,7 +18,6 @@ export class BookDetailsComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private shared: SharedService,
     private bookService: BookServiceService,
     private snackBar: MatSnackBar,
     private bookFacadeService: BooksFacade

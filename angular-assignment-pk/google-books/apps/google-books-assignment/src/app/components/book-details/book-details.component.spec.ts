@@ -8,7 +8,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BookDetailsComponent } from './book-details.component';
 import { BookServiceService } from '../../service/book-service.service';
-import { SharedService } from '../../service/shared.service';
 import { BookModel } from '../../models/book-model';
 import { Observable, of } from 'rxjs';
 import { Router, RouterOutlet, ActivatedRoute, convertToParamMap } from "@angular/router";
@@ -21,7 +20,6 @@ describe('BookDetailsComponent', () => {
   let component: BookDetailsComponent;
   let fixture: ComponentFixture<BookDetailsComponent>;
   let service: BookServiceService;
-  let sharedService: SharedService;
   let mockRouter;
   let mockActivatedRoute;
   let id;
@@ -59,9 +57,6 @@ describe('BookDetailsComponent', () => {
             getBookById: () => of(data),
           },
         },
-        {
-          provide: SharedService
-        },
         { provide: Router, useValue: mockRouter },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         provideMockStore({ initialState }),
@@ -71,7 +66,6 @@ describe('BookDetailsComponent', () => {
     fixture = TestBed.createComponent(BookDetailsComponent);
     component = fixture.componentInstance;
     service = TestBed.inject(BookServiceService);
-    sharedService = TestBed.inject(SharedService);
     fixture.detectChanges();
     
   });
@@ -98,13 +92,5 @@ describe('BookDetailsComponent', () => {
       fixture.detectChanges();
       expect(component.addToCart).toHaveBeenCalledWith(data);
     });
-    it('should check if cartitems is already having the book', ()=>{
-      const spy = spyOnProperty(sharedService, 'cartItems', 'get').and.returnValue([]);
-      expect(sharedService.cartItems).toEqual([]); 
-      expect(spy).toHaveBeenCalled();
-      console.log(sharedService.cartItems);
-      let itemExists = sharedService.cartItems.some(item=>item.id === data.id);
-      expect(itemExists).toBeFalse();
-    })
   })
 });

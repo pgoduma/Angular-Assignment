@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { BookModel } from '../../models/book-model';
-import { SharedService } from '../../service/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { BooksFacade } from '../../store/books.facade';
@@ -22,7 +21,6 @@ export class SearchPageComponent implements OnInit {
   errMsg:string;
   constructor(
     private router: Router,
-    public shared: SharedService,
     private snackBar: MatSnackBar,
     private bookFacadeService: BooksFacade
   ) {

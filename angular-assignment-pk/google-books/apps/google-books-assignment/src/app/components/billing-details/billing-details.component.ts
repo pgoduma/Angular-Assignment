@@ -7,7 +7,6 @@ import {
 } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookModel } from '../../models/book-model';
-import { SharedService } from '../../service/shared.service';
 import { map } from 'rxjs/operators';
 import { BooksFacade } from '../../store/books.facade';
 
@@ -23,7 +22,6 @@ export class BillingDetailsComponent implements OnInit {
   bookId: string;
   constructor(
     private fb: FormBuilder,
-    private shared: SharedService,
     private router: Router,
     public  dialog: MatDialog,
     private route: ActivatedRoute,

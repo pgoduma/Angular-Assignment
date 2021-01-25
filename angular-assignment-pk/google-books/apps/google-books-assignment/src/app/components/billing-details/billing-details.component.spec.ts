@@ -10,7 +10,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { BookModel } from '../../models/book-model';
-import { SharedService } from '../../service/shared.service';
 import { provideMockStore } from '@ngrx/store/testing';
 
 describe('BillingDetailsComponent', () => {
@@ -19,7 +18,6 @@ describe('BillingDetailsComponent', () => {
   let de: DebugElement;
   let el: HTMLElement;
   let mockActivatedRoute;
-  let sharedService;
   let mockMatdialogRef;
   beforeEach( () => {
       mockActivatedRoute = {params: of({page:'buy', id: 1})};
@@ -29,7 +27,6 @@ describe('BillingDetailsComponent', () => {
       imports: [RouterTestingModule, ReactiveFormsModule, MatDialogModule],
       declarations: [ BillingDetailsComponent,  PurchaseSuccessDialog],
       providers: [{ provide: ActivatedRoute, useValue: mockActivatedRoute },
-                  { provide: SharedService},
                   {provide: MatDialogRef, useFactory: () => jasmine.createSpyObj('MatDialogRef', ['close', 'afterClosed']) },
                   // {provide: MatDialogRef, useValue: mockMatdialogRef },
                   provideMockStore({ initialState }),
@@ -44,7 +41,6 @@ describe('BillingDetailsComponent', () => {
     component = fixture.componentInstance;
     de = fixture.debugElement.query(By.css('form'));
     el = de.nativeElement;
-    sharedService = TestBed.inject(SharedService);
     mockMatdialogRef = TestBed.inject(MatDialogRef);
     fixture.detectChanges();
   });
@@ -143,16 +139,6 @@ describe('BillingDetailsComponent', () => {
       spyOn(component, 'submitBooks').and.callThrough();
       component.submitBooks();
       expect(component.fromPage).toEqual('buy');
-    });
-    it('should retrive the book from booksData', ()=>{
-      spyOn(component, 'submitBooks').and.callThrough();
-      component.submitBooks();
-      expect(component.fromPage).toEqual('buy');
-      let spy = spyOnProperty(sharedService, 'booksData', 'get').and.returnValue([data]);
-      sharedService.booksData;
-      const book = sharedService.booksData.filter(item=>item.id == data.id)[0];
-      expect(spy).toHaveBeenCalled();
-      expect(book).toEqual(data);
     });
     it('should check setBillingData is called', ()=>{
       spyOn(component, 'setBillingData').and.callThrough();
