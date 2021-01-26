@@ -1,4 +1,4 @@
 export class ApiKey
 {
-    public static BOOKS_URL  = "https://www.googleapis.com/books/v1/volumes";
+    public static BOOKS_URL  = "/api/books";
 }
