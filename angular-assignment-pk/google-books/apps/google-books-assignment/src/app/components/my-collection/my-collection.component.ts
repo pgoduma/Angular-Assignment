@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BookModel } from '../../models/book-model';
+import { Book } from '../../../../../../libs/shared/models/src/lib/models';
 import { BooksFacade } from '../../store/books.facade';
 @Component({
   selector: 'app-my-collection',
@@ -8,7 +8,7 @@ import { BooksFacade } from '../../store/books.facade';
   styleUrls: ['./my-collection.component.scss'],
 })
 export class MyCollectionComponent implements OnInit {
-  myCollectionItems$: Observable<BookModel[]>
+  myCollectionItems$: Observable<Book[]>
   constructor(private bookFacadeService: BooksFacade) {}
 
   ngOnInit(): void {

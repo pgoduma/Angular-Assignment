@@ -3,7 +3,6 @@ import { BookServiceService } from '../../service/book-service.service';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import * as bookActions from '../actions/books.actions';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { BookModel } from '../../models/book-model';
 
 @Injectable({ providedIn: 'root' })
 export class BooksEffects {
@@ -19,12 +18,7 @@ export class BooksEffects {
       return this.bookService
         .getBooks(action.payload)
         .pipe(
-          map(
-            (data) =>
-              new bookActions.LoadBooksSuccess(
-                data.map((book) => new BookModel(book['volumeInfo'], book.id))
-              )
-          ),
+          map(data => new bookActions.LoadBooksSuccess(data)),
           catchError(error=>{
             console.log(error);
             new bookActions.LoadBooksFailure('Error retrieving books');

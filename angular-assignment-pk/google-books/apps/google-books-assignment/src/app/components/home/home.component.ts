@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { Observable } from 'rxjs';
-import { BookModel } from '../../models/book-model';
+import { Book } from '../../../../../../libs/shared/models/src/lib/models';
 import { BooksFacade } from '../../store/books.facade';
 @Component({
   selector: 'app-home',
@@ -9,8 +9,8 @@ import { BooksFacade } from '../../store/books.facade';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  cartItems$: Observable<BookModel[]>;
-  myCollectionItems$: Observable<BookModel[]>;
+  cartItems$: Observable<Book[]>;
+  myCollectionItems$: Observable<Book[]>;
   constructor(
      public media: MediaObserver, 
      private bookFacadeService: BooksFacade) {}

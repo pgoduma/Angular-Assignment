@@ -1,14 +1,9 @@
 {
   "npmScope": "google-books",
-  "affected": {
-    "defaultBase": "master"
-  },
+  "affected": { "defaultBase": "master" },
   "implicitDependencies": {
     "angular.json": "*",
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
-    },
+    "package.json": { "dependencies": "*", "devDependencies": "*" },
     "tsconfig.base.json": "*",
     "tslint.json": "*",
     ".eslintrc.json": "*",
@@ -17,18 +12,16 @@
   "tasksRunnerOptions": {
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
-      "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
-      }
+      "options": { "cacheableOperations": ["build", "lint", "test", "e2e"] }
     }
   },
   "projects": {
-    "google-books-assignment": {
-      "tags": []
-    },
+    "google-books-assignment": { "tags": [] },
     "google-books-assignment-e2e": {
       "tags": [],
       "implicitDependencies": ["google-books-assignment"]
-    }
+    },
+    "api": { "tags": [] },
+    "shared-models": { "tags": [] }
   }
 }

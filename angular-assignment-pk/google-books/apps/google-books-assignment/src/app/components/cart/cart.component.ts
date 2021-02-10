@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { BookModel } from '../../models/book-model';
+import { Book } from '../../../../../../libs/shared/models/src/lib/models';
 import { Observable } from 'rxjs';
 import { BooksFacade } from '../../store/books.facade';
 
@@ -11,7 +11,7 @@ import { BooksFacade } from '../../store/books.facade';
 })
 export class CartComponent implements OnInit {
   actionInfo: string;
-  cartItems$: Observable<BookModel[]>;
+  cartItems$: Observable<Book[]>;
   constructor(
     private router: Router,
     private bookFacadeService: BooksFacade
@@ -21,7 +21,7 @@ export class CartComponent implements OnInit {
     this.cartItems$ = this.bookFacadeService.cartItemsList$;
   }
 
-  removeBook(book: BookModel) {
+  removeBook(book: Book) {
     this.bookFacadeService.remFromCart(book);
   }
 

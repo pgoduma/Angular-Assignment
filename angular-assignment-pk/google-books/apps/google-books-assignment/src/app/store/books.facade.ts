@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { AppState } from '../models/app-state.model';
-import { BookModel } from '../models/book-model';
+import { Book } from '../../../../../libs/shared/models/src/lib/models';
 import * as bookActions from './actions/books.actions';
 import { booksList, cartItemsList, myCollectionItemsList } from './selectors/books.selector';
 
@@ -20,13 +20,13 @@ export class BooksFacade {
   loadBooks(query:string) {
     this.store.dispatch(new bookActions.LoadBooks(query));
   }
-  addToCart(book:BookModel) {
+  addToCart(book:Book) {
     this.store.dispatch(new bookActions.AddToCart(book));
   }
-  remFromCart(book:BookModel) {
+  remFromCart(book:Book) {
     this.store.dispatch(new bookActions.RemFromCart(book));
   }
-  addToMyCollection(book:BookModel) {
+  addToMyCollection(book:Book) {
     this.store.dispatch(new bookActions.AddToMyCollection(book));
   }
 }

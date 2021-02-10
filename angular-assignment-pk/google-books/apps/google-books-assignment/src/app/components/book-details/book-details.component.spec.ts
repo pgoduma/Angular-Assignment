@@ -8,7 +8,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BookDetailsComponent } from './book-details.component';
 import { BookServiceService } from '../../service/book-service.service';
-import { BookModel } from '../../models/book-model';
+import { Book } from '../../../../../../libs/shared/models/src/lib/models';
 import { Observable, of } from 'rxjs';
 import { Router, RouterOutlet, ActivatedRoute, convertToParamMap } from "@angular/router";
 import { RouterTestingModule } from '@angular/router/testing';
@@ -23,13 +23,14 @@ describe('BookDetailsComponent', () => {
   let mockRouter;
   let mockActivatedRoute;
   let id;
-  let data: BookModel = {
+  let data: Book = {
     id: '1',
     title: 'title 1',
     subtitle: 'subtitle 1',
     description: 'des 1',
     authors: ['name'],
-    imageLinks: { smallThumbnail: 'smallthumbnail', thumbnail: 'thumbnail' },
+    smallThumbnail: 'smallthumbnail',
+    thumbnail: 'thumbnail',
     averageRating: 5,
     publisher: 'publisher',
     pageCount: 10,

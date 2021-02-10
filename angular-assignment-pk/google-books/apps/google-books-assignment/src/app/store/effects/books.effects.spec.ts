@@ -8,7 +8,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BooksEffects } from './books.effects';
 import * as fromActions from '../actions/books.actions';
 import { BookServiceService } from '../../service/book-service.service';
-import { BookModel } from '../../models/book-model';
+import { Book } from '../../../../../../libs/shared/models/src/lib/models';
 
 describe('BooksEffect', () => {
   let actions$: Observable<Action>;
@@ -34,14 +34,15 @@ describe('BooksEffect', () => {
   }));
   
   it('SHOULD dispatch LoadBooksSuccess action when LoadBooks action is dispatched', () => {
-    const booksArr:BookModel[] = [
+    const booksArr:Book[] = [
         {
           id: '1',
           title: 'title 1',
           subtitle: 'subtitle 1',
           description: 'des 1',
           authors: ['name'],
-          imageLinks: { smallThumbnail: 'smallthumbnail', thumbnail: 'thumbnail' },
+          smallThumbnail: 'smallthumbnail', 
+          thumbnail: 'thumbnail' ,
           averageRating: 5,
           publisher: 'publisher',
           pageCount: 10,

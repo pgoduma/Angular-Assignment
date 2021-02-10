@@ -2,7 +2,7 @@ import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import { BookServiceService } from './book-service.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { BookModel } from '../models/book-model';
+import { Book } from '../../../../../libs/shared/models/src/lib/models';
 import { ApiKey } from '../keys/api-key';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -21,9 +21,9 @@ describe('BookServiceService', () => {
     mockHttp.verify();
   });
   it('should should retrieve books from the Api via GET', () => {
-    const dummyBooks: BookModel[] = [
-      {id:'1',title:'title 1',subtitle:'subtitle 1',description:'des 1',authors:['name'],imageLinks:{smallThumbnail:'smallthumbnail',thumbnail:'thumbnail'},averageRating: 5, publisher:'publisher',pageCount:10,language:'en',billingName:'name',billingAddress:'address',billingEmail:'test@test.com','billingPhone':'9999999999'},
-      {id:'1',title:'title 1',subtitle:'subtitle 1',description:'des 1',authors:['name'],imageLinks:{smallThumbnail:'smallthumbnail',thumbnail:'thumbnail'},averageRating: 5, publisher:'publisher',pageCount:10,language:'en',billingName:'name',billingAddress:'address',billingEmail:'test@test.com','billingPhone':'9999999999'},
+    const dummyBooks: Book[] = [
+      {id:'1',title:'title 1',subtitle:'subtitle 1',description:'des 1',authors:['name'],smallThumbnail:'smallthumbnail',thumbnail:'thumbnail',averageRating: 5, publisher:'publisher',pageCount:10,language:'en',billingName:'name',billingAddress:'address',billingEmail:'test@test.com','billingPhone':'9999999999'},
+      {id:'1',title:'title 1',subtitle:'subtitle 1',description:'des 1',authors:['name'],smallThumbnail:'smallthumbnail',thumbnail:'thumbnail',averageRating: 5, publisher:'publisher',pageCount:10,language:'en',billingName:'name',billingAddress:'address',billingEmail:'test@test.com','billingPhone':'9999999999'},
 
     ];
     service.getBooks('test').subscribe((books)=>{
@@ -37,7 +37,7 @@ describe('BookServiceService', () => {
     request.flush(dummyBooks);
   });
   it('should should retrieve book details by book id', () => {
-    const dummyBook: BookModel = {id:'1',title:'title 1',subtitle:'subtitle 1',description:'des 1',authors:['name'],imageLinks:{smallThumbnail:'smallthumbnail',thumbnail:'thumbnail'},averageRating: 5, publisher:'publisher',pageCount:10,language:'en',billingName:'name',billingAddress:'address',billingEmail:'test@test.com','billingPhone':'9999999999'};
+    const dummyBook: Book = {id:'1',title:'title 1',subtitle:'subtitle 1',description:'des 1',authors:['name'],smallThumbnail:'smallthumbnail',thumbnail:'thumbnail',averageRating: 5, publisher:'publisher',pageCount:10,language:'en',billingName:'name',billingAddress:'address',billingEmail:'test@test.com','billingPhone':'9999999999'};
     
     service.getBookById('123').subscribe((book)=>{
       if(book){

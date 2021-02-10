@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { BookModel } from '../../models/book-model';
+// import { BookModel } from '../../models/book-model';
+import { Book } from '../../../../../../libs/shared/models/src/lib/models';
+
 
 @Component({
   selector: 'app-book',
@@ -8,7 +10,7 @@ import { BookModel } from '../../models/book-model';
   styleUrls: ['./book.component.scss'],
 })
 export class BookComponent implements OnInit {
-  @Input() book: BookModel;
+  @Input() book: Book;
 
   constructor(private router: Router) {}
 

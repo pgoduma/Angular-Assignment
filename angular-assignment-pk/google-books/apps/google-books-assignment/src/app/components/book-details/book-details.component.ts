@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BookModel } from '../../models/book-model';
+import { Book } from '../../../../../../libs/shared/models/src/lib/models';
 import { BookServiceService } from '../../service/book-service.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BooksFacade } from '../../store/books.facade';
@@ -12,7 +12,7 @@ import { BooksFacade } from '../../store/books.facade';
 })
 export class BookDetailsComponent implements OnInit {
   bookId: string;
-  book: BookModel;
+  book: Book;
   actionInfo: string;
   loading: boolean = false;
   constructor(
@@ -33,18 +33,18 @@ export class BookDetailsComponent implements OnInit {
   }
   getBookDetails() {
     this.loading = true;
-    this.bookService.getBookById(this.bookId).subscribe((book: BookModel) => {
-      this.book = new BookModel(book['volumeInfo'], book.id);
+    this.bookService.getBookById(this.bookId).subscribe((book: Book) => {
+      this.book = book;
       this.loading = false;
       console.log(this.book);
     });
   }
 
-  addToCart(book: BookModel) {
+  addToCart(book: Book) {
         this.bookFacadeService.addToCart(book);
   }
 
-  buyNow(book: BookModel){
+  buyNow(book: Book){
     this.router.navigate(['billing-details', 'buy', book.id]);
   }
 }

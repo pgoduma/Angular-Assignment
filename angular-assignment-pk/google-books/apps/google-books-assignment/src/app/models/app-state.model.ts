@@ -1,10 +1,10 @@
-import { BookModel } from "./book-model";
+import { Book } from '../../../../../libs/shared/models/src/lib/models';
 import { BillingDetails } from "./billing-details-model";
 
 export interface BooksState {
-    booksList: BookModel[];
-    cartItems: BookModel[];
-    myCollectionItems: BookModel[];
+    booksList: Book[];
+    cartItems: Book[];
+    myCollectionItems: Book[];
     searchQuery: string;
     recentSearches: string[];
     billingDetails: BillingDetails[];

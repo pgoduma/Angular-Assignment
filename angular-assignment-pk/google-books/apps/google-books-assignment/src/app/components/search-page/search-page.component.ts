@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
-import { BookModel } from '../../models/book-model';
+import { Book } from '../../../../../../libs/shared/models/src/lib/models';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { BooksFacade } from '../../store/books.facade';
@@ -13,10 +13,10 @@ import { BooksFacade } from '../../store/books.facade';
   styleUrls: ['./search-page.component.scss'],
 })
 export class SearchPageComponent implements OnInit {
-  booksList$:Observable<BookModel[]>;
+  booksList$:Observable<Book[]>;
   loading: boolean = false;
   @ViewChild('inputQuery') inputQuery: ElementRef;
-  booksArr: BookModel[];
+  booksArr: Book[];
   searchFieldInput: FormControl = new FormControl('');
   errMsg:string;
   constructor(

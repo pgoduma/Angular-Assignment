@@ -11,7 +11,7 @@ import { BookServiceService } from '../../service/book-service.service';
 import { SearchPageComponent } from './search-page.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { BookModel } from '../../models/book-model';
+import { Book } from '../../../../../../libs/shared/models/src/lib/models';
 import { of, throwError } from 'rxjs';
 import { BookComponent } from '../book/book.component';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -21,7 +21,7 @@ describe('SearchPageComponent', () => {
   let component: SearchPageComponent;
   let fixture: ComponentFixture<SearchPageComponent>;
   let mockBooksService;
-  let books: BookModel[];
+  let books: Book[];
   let mockRouter;
   let mockActivatedRoute;
   beforeEach(() => {
@@ -34,10 +34,8 @@ describe('SearchPageComponent', () => {
         subtitle: 'subtitle 1',
         description: 'des 1',
         authors: ['name'],
-        imageLinks: {
-          smallThumbnail: 'smallthumbnail',
-          thumbnail: 'thumbnail',
-        },
+        smallThumbnail: 'smallthumbnail',
+        thumbnail: 'thumbnail',
         averageRating: 5,
         publisher: 'publisher',
         pageCount: 10,
@@ -53,10 +51,8 @@ describe('SearchPageComponent', () => {
         subtitle: 'subtitle 1',
         description: 'des 1',
         authors: ['name'],
-        imageLinks: {
-          smallThumbnail: 'smallthumbnail',
-          thumbnail: 'thumbnail',
-        },
+        smallThumbnail: 'smallthumbnail',
+        thumbnail: 'thumbnail',
         averageRating: 5,
         publisher: 'publisher',
         pageCount: 10,

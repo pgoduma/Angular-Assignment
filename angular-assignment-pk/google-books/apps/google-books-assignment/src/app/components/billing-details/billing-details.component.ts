@@ -6,7 +6,7 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BookModel } from '../../models/book-model';
+import { Book } from '../../../../../../libs/shared/models/src/lib/models';
 import { map } from 'rxjs/operators';
 import { BooksFacade } from '../../store/books.facade';
 
@@ -70,7 +70,7 @@ export class BillingDetailsComponent implements OnInit {
       this.openDialog();
     }
   }
-  setBillingData(book: BookModel) {
+  setBillingData(book: Book) {
     let billingData = this.billingDetails.value;
     book.billingName = billingData.billingName;
     book.billingPhone = billingData.billingPhone;

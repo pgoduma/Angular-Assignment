@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { BookModel } from '../../models/book-model';
+import { Book } from '../../../../../../libs/shared/models/src/lib/models';
 
 export enum BookActionTypes {
   LOAD_BOOKS = '[Search] load Books by query',
@@ -16,7 +16,7 @@ export class LoadBooks implements Action {
 
 export class LoadBooksSuccess implements Action {
   readonly type = BookActionTypes.LOAD_BOOKS_SUCCESS;
-  constructor(public payload: BookModel[]) {}
+  constructor(public payload: Book[]) {}
 }
 export class LoadBooksFailure implements Action {
   readonly type = BookActionTypes.LOAD_BOOKS_FAILURE;
@@ -25,15 +25,15 @@ export class LoadBooksFailure implements Action {
 
 export class AddToCart implements Action {
   readonly type = BookActionTypes.ADD_BOOK_TO_CART;
-  constructor(public payload: BookModel) {}
+  constructor(public payload: Book) {}
 }
 export class RemFromCart implements Action {
   readonly type = BookActionTypes.REM_BOOK_FROM_CART;
-  constructor(public payload: BookModel) {}
+  constructor(public payload: Book) {}
 }
 export class AddToMyCollection implements Action {
   readonly type = BookActionTypes.ADD_TO_MY_COLLECTION;
-  constructor(public payload: BookModel) {}
+  constructor(public payload: Book) {}
 }
 
 export type BookActions =

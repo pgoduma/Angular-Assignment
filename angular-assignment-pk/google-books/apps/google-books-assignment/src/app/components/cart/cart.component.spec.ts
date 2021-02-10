@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CartComponent } from './cart.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { BookModel } from '../../models/book-model';
+import { Book } from '../../../../../../libs/shared/models/src/lib/models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { provideMockStore } from '@ngrx/store/testing';
 
@@ -11,17 +11,18 @@ describe('CartComponent', () => {
   let component: CartComponent;
   let fixture: ComponentFixture<CartComponent>;
   let mockRouter;
-  let data: BookModel = {
+  let data: Book = {
     id: '1',
     title: 'title 1',
     subtitle: 'subtitle 1',
     description: 'des 1',
     authors: ['name'],
-    imageLinks: { smallThumbnail: 'smallthumbnail', thumbnail: 'thumbnail' },
     averageRating: 5,
     publisher: 'publisher',
     pageCount: 10,
     language: 'en',
+    smallThumbnail: 'test',
+    thumbnail: 'test',
     billingName: 'name',
     billingAddress: 'address',
     billingEmail: 'test@test.com',

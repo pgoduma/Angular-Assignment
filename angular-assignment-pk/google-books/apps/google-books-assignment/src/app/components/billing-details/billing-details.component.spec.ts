@@ -9,7 +9,7 @@ import { DebugElement } from '@angular/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
-import { BookModel } from '../../models/book-model';
+import { Book } from '../../../../../../libs/shared/models/src/lib/models';
 import { provideMockStore } from '@ngrx/store/testing';
 
 describe('BillingDetailsComponent', () => {
@@ -119,13 +119,14 @@ describe('BillingDetailsComponent', () => {
   });
 
   describe('frompage is buy', ()=>{
-    let data: BookModel = {
+    let data: Book = {
       id: '1',
       title: 'title 1',
       subtitle: 'subtitle 1',
       description: 'des 1',
       authors: ['name'],
-      imageLinks: { smallThumbnail: 'smallthumbnail', thumbnail: 'thumbnail' },
+      smallThumbnail: 'smallthumbnail', 
+      thumbnail: 'thumbnail',
       averageRating: 5,
       publisher: 'publisher',
       pageCount: 10,
