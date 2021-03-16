@@ -1,0 +1,17 @@
+module.exports = {
+  id: '1',
+  title: 'title 1',
+  subtitle: 'subtitle 1',
+  description: 'des 1',
+  authors: ['name'],
+  smallThumbnail: 'smallthumbnail',
+  thumbnail: 'thumbnail',
+  averageRating: 5,
+  publisher: 'publisher',
+  pageCount: 10,
+  language: 'en',
+  billingName: 'name',
+  billingAddress: 'address',
+  billingEmail: 'test@test.com',
+  billingPhone: '9999999999',
+};

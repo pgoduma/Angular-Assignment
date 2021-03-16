@@ -1,78 +1,79 @@
-const should = require('should');
-const sinon = require('sinon');
+const { expect } = require('chai');
+const response = require('./mock-response');
 const bookController = require('../controller/booksController');
+const nock = require('nock');
 
 describe('Book Controller Tests', () => {
- describe('get Books', () => {
-     it('should send list of books on get books', () => {
-         const req = {
-             query: 'javascript'
-         }
+  describe('get Books', () => {
+    beforeEach(() => {
+      const url = `/books/v1/volumes?q=ngbook`;
+      const errUrl = `/books/v1/volumes?q=`;
+      nock('https://www.googleapis.com').get(url).reply(200, [response]);
+      nock('https://www.googleapis.com').get(errUrl).reply(400, {
+        message: 'bad request',
+        status: 400,
+      });
+    });
 
-         const res = {
-             status: sinon.spy(),
-             send: sinon.spy(),
-             json: sinon.spy()
-         }
+    it('should send list of books on get books', () => {
+      const req = {
+        query: {
+          q: 'ngbook',
+        },
+      };
+      const controller = bookController();
+      const response = controller.getBooks(req);
+      expect(typeof response).to.equal('array');
+      expect(response.id).to.equal('1');
+      expect(response.title).to.equal('title 1');
+    });
+    it('should send 400 error for invalid query', () => {
+      const req = {
+        query: {
+          q: '',
+        },
+      };
 
-         const controller = bookController();
-         controller.getBooks(req, res)
+      const controller = bookController();
+      const response = controller.getBooks(req);
+      expect(typeof response).to.equal('object');
+      expect(response.status).to.equal(400);
+    });
+  });
+  describe('get Book by Id', () => {
+    beforeEach(() => {
+      const url = `/books/v1/volumes/abc123`;
+      const errUrl = `/books/v1/volumes/null`;
+      nock('https://www.googleapis.com').get(url).reply(200, response);
+      nock('https://www.googleapis.com').get(errUrl).reply(400, {
+        message: 'bad request',
+        status: 400,
+      });
+    });
 
-         res.status.calledWith(200).should.equal(true);
-     })
-     it('should send 400 error for invalid query', () => {
-         const req = {
-             query: ''
-         }
+    it('should send a book based on book id', () => {
+      const req = {
+        parmas: {
+          bookId: abc123,
+        },
+      };
+      const controller = bookController();
+      const response = controller.getBooks(req);
+      expect(typeof response).to.equal('array');
+      expect(response.id).to.equal('1');
+      expect(response.title).to.equal('title 1');
+    });
+    it('should send 400 error for invalid id', () => {
+      const req = {
+        parmas: {
+          bookId: null,
+        },
+      };
 
-         const res = {
-             status: sinon.spy(),
-             send: sinon.spy(),
-             json: sinon.spy()
-         }
-
-         const controller = bookController();
-         controller.getBooks(req, res)
-
-         res.status.calledWith(400).should.equal(true);
-     })
- });
- describe('get Book by Id', () => {
-     it('should send a book based on book id', () => {
-         const req = {
-             parmas: {
-                 bookId: 'abc123'
-             }
-         }
-
-         const res = {
-             status: sinon.spy(),
-             send: sinon.spy(),
-             json: sinon.spy()
-         }
-
-         const controller = bookController();
-         controller.getBookById(req, res)
-
-         res.status.calledWith(200).should.equal(true);
-     })
-     it('should send 400 error for invalid book id', () => {
-        const req = {
-            parmas: {
-                bookId: ''
-            }
-        }
-
-        const res = {
-            status: sinon.spy(),
-            send: sinon.spy(),
-            json: sinon.spy()
-        }
-
-        const controller = bookController();
-        controller.getBooks(req, res)
-
-        res.status.calledWith(400).should.equal(true);
-    })
- });
+      const controller = bookController();
+      const response = controller.getBooks(req);
+      expect(typeof response).to.equal('object');
+      expect(response.status).to.equal(400);
+    });
+  });
 });
